@@ -2,7 +2,7 @@
 TARGET = drumgirl
 TYPE = ps-exe
 
-SRCS = third_party/nugget/common/crt0/crt0.s main.c
+SRCS = third_party/nugget/common/crt0/crt0.s src/main.c src/mesh.c src/psx.c src/sprite.c
 
 CPPFLAGS += -Ithird_party/psyq-iwyu/include
 LDFLAGS += -Lthird_party/psyq/lib
@@ -32,3 +32,9 @@ LDFLAGS += -ltap
 LDFLAGS += -Wl,--end-group
 
 include third_party/nugget/common.mk
+
+buildcd:
+	mkpsxiso -o drumgirl.iso -y cd\cuesheet.xml
+
+runduck:
+	C:\duckstation-windows-x64-release\duckstation-qt-x64-ReleaseLTCG.exe drumgirl.iso
