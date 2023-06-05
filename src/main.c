@@ -1,88 +1,91 @@
 #include "psx.h"
 #include "sprite.h"
 #include "mesh.h"
+#include "state.h"
 
 long cameraX = 0;
 long cameraY = 820;
 long cameraZ = 1500;
 
-u_long *cd_data[7];
-Mesh cube[2], plane;
-Sprite player;
-
 void update()
 {
-	if(pad & PADLup && player.posZ < 610){
-    	player.posZ += 5;
+	if(pad & PADLup){
+    	//player.posZ += 5;
     	cameraZ -= 5;
     }
-    if(pad & PADLdown && player.posZ > -280){
-    	player.posZ -= 5;
+    if(pad & PADLdown){
+    	//player.posZ -= 5;
     	cameraZ += 5;
     }
-    if(pad & PADLleft && player.posX > -480){
-    	player.posX -= 5;
+    if(pad & PADLleft){
+    	//player.posX -= 5;
     	cameraX += 5;
     }
-    if(pad & PADLright && player.posX < 480){
-    	player.posX += 5;
+    if(pad & PADLright){
+    	//player.posX += 5;
     	cameraX -= 5;
     }
 
-	cube[0].angX += 16;
-	cube[0].angY += 16;
-	cube[0].angZ += 16;
-	cube[1].angX += 16;
-	cube[1].angY += 16;
-	cube[1].angZ += 16;
+	if (pad & PADL2) {
+		cameraY += 2;
+	}
+	if (pad & PADR2) {
+		cameraY -= 2;
+	}
 }
 
 int main() {
 	psSetup();
+
+	Sprite flowerboy;
+	Sprite grass;
 	
-	cd_open();
-	cd_read_file("HPUP.VAG", &cd_data[0]);
-	cd_read_file("CLOUD.TIM", &cd_data[1]);
-	cd_read_file("GROUND.TIM", &cd_data[2]);
-	cd_read_file("PLANE.OBJ", &cd_data[3]);
-	cd_read_file("BOX.TIM", &cd_data[4]);
-	cd_read_file("CUBE.OBJ", &cd_data[5]);
-	cd_read_file("CUBE.OBJ", &cd_data[6]);
-	cd_close();
-
-	audio_init();
-	audio_vag_to_spu((u_char *)cd_data[0], SECTOR * 21, SPU_00CH);
-	audio_play(SPU_00CH);
-
-	mesh_init(&plane, 500, (u_char*)cd_data[3]);
-	mesh_setTim(&plane, (u_char*)cd_data[2]);
-
-	mesh_init(&cube[0], 100, (u_char*)cd_data[5]);
-	mesh_setTim(&cube[0], (u_char*)cd_data[4]);
-	cube[0].posX = -350;
-	cube[0].posZ = 1000;
-
-	mesh_init(&cube[1], 100, (u_char*)cd_data[6]);
-	mesh_setTim(&cube[1], (u_char*)cd_data[4]);
-	cube[1].posX = 350;
-	cube[1].posZ = 1000;
-
-	sprite_init(&player, 60, 128, (u_char *)cd_data[1]);
-	sprite_setuv(&player, 0, 0, 60, 128);
-
-	free3(cd_data);
+	game_state = LOAD_FIELD;
 	
 	while(1) {
 		psClear();
 		psCamera(cameraX, cameraY, cameraZ, 300, 0, 0);
-		
 		update();
+		FntPrint ("GRASS X ANG: %d\n", grass.angX);
+		FntPrint ("GRASS Y ANG: %d\n", grass.angY);
+		FntPrint ("GRASS Z ANG: %d\n", grass.angZ);
 
-		mesh_draw(&plane);
-		mesh_draw(&cube[0]);
-		mesh_draw(&cube[1]);
-		sprite_draw(&player);
-		//FntPrint("hello world %d", 123);
+		switch (game_state){
+		case LOAD_FIELD:
+			cd_open();
+			cd_read_file("CLACK.VAG", &cd_data[0]);
+			cd_read_file("REDCAT.TIM", &cd_data[1]);
+			cd_read_file("GRASS.TIM", &cd_data[3]);
+			cd_read_file("CREATURS.TIM", &cd_data[2]);
+			cd_close();
+
+			audio_init();
+			audio_vag_to_spu((u_char *)cd_data[0], SECTOR * 21, SPU_00CH);
+			audio_play(SPU_00CH);
+
+			sprite_init(&grass, 128, 128, (u_char *)cd_data[3]);
+			sprite_setuv(&grass, 0, 0, 128, 128);
+			grass.angX = 900;
+
+			sprite_init(&flowerboy, 32, 32, (u_char *)cd_data[2]);
+			sprite_setuv(&flowerboy, 0, 0, 32, 32);
+			//flowerboy.posX = 50; flowerboy.posY = 50;
+			
+			setRGB0(&drawenv[0], 0, 51, 255);
+			setRGB0(&drawenv[1], 0, 51, 255);
+
+			free3(cd_data);
+
+			game_state = FIELD;
+			break;
+		
+		case FIELD:
+			sprite_draw(&grass);
+			sprite_draw (&flowerboy);	
+			
+			
+			break;
+		}
 
 		psDisplay();
 	}

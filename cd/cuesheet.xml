@@ -5,12 +5,10 @@
 		<license file="LICENSEE.DAT"/>
 		<directory_tree>
 			<file name="SYSTEM.CNF"	type="data" source="SYSTEM.CNF"/>
-			<file name="HPUP.VAG"	type="data" source="..\data\HPUP.VAG"/>
-			<file name="CLOUD.TIM"	type="data" source="..\data\CLOUD.TIM"/>
-			<file name="GROUND.TIM"	type="data" source="..\data\GROUND.TIM"/>
-			<file name="BOX.TIM"	type="data" source="..\data\BOX.TIM"/>
-			<file name="CUBE.OBJ"	type="data" source="..\data\CUBE.OBJ"/>
-			<file name="PLANE.OBJ"	type="data" source="..\data\PLANE.OBJ"/>
+			<file name="CLACK.VAG"	type="data" source="..\data\SFX\CLACK.VAG"/>
+			<file name="REDCAT.TIM" type="data" source="..\data\SPR\REDCAT.TIM"/>
+			<file name="CREATURS.TIM" type="data" source="..\data\SPR\CREATURS.TIM"/>
+			<file name="GRASS.TIM"	type="data" source="..\data\BKG\GRASS.TIM"/>
 
 			<file name="DRUMGIRL.EXE"	type="data" source="..\drumgirl.ps-exe"/>
 			<!-- Add your own files or folders here -->

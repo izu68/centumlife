@@ -3,4 +3,5 @@
 -I.
 -Ithird_party/nugget
 -Ithird_party/psyq-iwyu/include
+-DLANGUAGE_C
     

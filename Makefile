@@ -38,3 +38,6 @@ buildcd:
 
 runduck:
 	C:\duckstation-windows-x64-release\duckstation-qt-x64-ReleaseLTCG.exe drumgirl.iso
+
+runpcsx:
+	pcsx-redux.exe -stdout -iso drumgirl.iso

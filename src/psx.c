@@ -6,6 +6,7 @@
 #define SOUND_MALLOC_MAX 10
 
 u_long pad;
+u_long *cd_data[7];
 
 DISPENV	dispenv[2];
 DRAWENV	drawenv[2];
@@ -190,25 +191,25 @@ void cd_read_file(unsigned char* file_path, u_long** file) {
 	strcpy(file_path_raw, "\\");
 	strcat(file_path_raw, file_path);
 	strcat(file_path_raw, ";1");
-	printf("Loading file from CD: %s\n", file_path_raw);
+	printf("Oh my file... are you in? %s\n", file_path_raw);
 
 	// Search for file on disc
 	DsSearchFile(temp_file_info, file_path_raw);
 
 	// Read the file if it was found
 	if(temp_file_info->size > 0) {
-		printf("...file found\n");
-		printf("...file size: %lu\n", temp_file_info->size);
+		printf("...you are! My beloved!\n");
+		printf("...oh my file... your size is of %lu... you should lose some weight\n", temp_file_info->size);
 		*sectors_size = temp_file_info->size + (SECTOR % temp_file_info->size);
-		printf("...file buffer size needed: %d\n", *sectors_size);
-		printf("...sectors needed: %d\n", (*sectors_size + SECTOR - 1) / SECTOR);
+		printf("...oh my file... you'll take %d in my buffer... but that's ok\n", *sectors_size);
+		printf("...oh my file... you'll take %d of my sectors... but it'll be my pleasure\n", (*sectors_size + SECTOR - 1) / SECTOR);
 		*file = malloc3(*sectors_size + SECTOR);
 		
 		DsRead(&temp_file_info->pos, (*sectors_size + SECTOR - 1) / SECTOR, *file, DslModeSpeed);
 		while(DsReadSync(NULL));
-		printf("...file loaded!\n");
+		printf("...File!! My beloved!! You are loaded!!\n\n");
 	} else {
-		printf("...file not found");
+		printf("...oh file... I lost you forever...\n\n");
 	}
 
 	// Clean up

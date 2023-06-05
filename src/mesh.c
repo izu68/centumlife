@@ -3,6 +3,68 @@
 void mesh_setPoly(Mesh *mesh);
 int* read_f(char *line);
 
+void my_mesh_init(Mesh *mesh, int size, unsigned char data[])
+{
+    /*if (data != NULL)
+    {
+        char *line = strtok(data, "\n");
+        int index = 0;
+        int ii = 0;
+
+        while (line != NULL)
+        {
+            char type;
+            sscanf(line, "%c", &type);
+
+            if (type == 'v')
+            {
+                short tmp[3];
+                int k = 0;
+                int n;
+                for (n = 0; n < strlen(line); n++)
+                {
+                    if (line[n] == ' ')
+                    {
+                        char c[4];
+                        sscanf(line + n + 1, "%3s", c);
+                        tmp[k++] = (short)(size * atof(c));
+                    }
+                }
+
+                if (mesh->vertices == NULL)
+                    mesh->vertices = malloc3(sizeof(SVECTOR));
+                else
+                    mesh->vertices = realloc3(mesh->vertices, (index + 1) * sizeof(SVECTOR));
+
+                mesh->vertices[index].vx = tmp[0];
+                mesh->vertices[index].vy = tmp[1];
+                mesh->vertices[index].vz = tmp[2];
+                index++;
+            }
+            else if (type == 'f')
+            {
+                int a[4];
+                sscanf(line + 1, "%d %d %d %d", &a[0], &a[1], &a[2], &a[3]);
+
+                if (mesh->indices == NULL)
+                    mesh->indices = malloc3(4 * sizeof(int));
+                else
+                    mesh->indices = realloc3(mesh->indices, (4 * (ii + 1)) * sizeof(int));
+
+                for (int i = 0; i < 4; i++)
+                    mesh->indices[ii++] = a[i];
+
+                mesh->indicesLength++;
+            }
+
+            line = strtok(NULL, "\n");
+        }
+    }*/
+
+    mesh->ft4 = malloc3(mesh->indicesLength * sizeof(POLY_FT4));
+    mesh_setPoly(mesh);
+}
+
 void mesh_init(Mesh *mesh, int size, unsigned char data[])
 {
 	/*if(data != NULL)
@@ -53,7 +115,6 @@ void mesh_init(Mesh *mesh, int size, unsigned char data[])
 			token = strtok(NULL, "\n");
 		}
 	}*/
-	
 
 	mesh->ft4 = malloc3(mesh->indicesLength * sizeof(POLY_FT4));
 	mesh_setPoly(mesh);
@@ -64,7 +125,6 @@ void mesh_setTim(Mesh *mesh, unsigned char img[]){
 	psLoadTim(&mesh->tpage, img);
     for (i = 0; i < mesh->indicesLength; ++i) {
 		setUV4(&mesh->ft4[i], 2, 2, 128-2, 2, 2, 128-2, 128-2, 128-2);
-
 		SetShadeTex(&mesh->ft4[i], 1);
 	}
 }

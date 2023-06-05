@@ -1,0 +1,2 @@
+make buildcd
+make runduck

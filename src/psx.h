@@ -13,11 +13,14 @@
 #include <strings.h>
 #include <libmath.h>
 
-#define SCREEN_WIDTH 320
-#define	SCREEN_HEIGHT 256
+#define SCREEN_WIDTH 384
+#define	SCREEN_HEIGHT 240
 #define SECTOR 2048
 
 extern u_long pad;
+extern u_long *cd_data[7];
+
+extern DRAWENV	drawenv[2];
 
 void psSetup();
 void psClear();
